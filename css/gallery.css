@@ -21,6 +21,7 @@ body{
 }
 #galleryCon li{
 	float:left;
+	display:inline;
 	margin:0 10px;
 	border:2px solid #37343B;
 }
