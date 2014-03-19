@@ -4,7 +4,9 @@
 	* Copyright (c) 2013, 梦幻神化
 	* Create: 2013.07.12
 	* Version: 1.1
-	* Update: 1. 支持鼠标滚轮滚动 2. 改成插件形式 3. 兼容IE6+ （2013-12-26）
+	* Update: 1. 支持鼠标滚轮滚动（2013-12-26）
+	* Version: 1.2
+	* Update: 1. 兼容IE6、7 （2014-03-19）
 	*
 	* 请保留此信息，如果您有修改或意见可通过网站给我留言
 	* http://www.bluesdream.com
@@ -33,25 +35,26 @@
 
 	// 滚动代码
 	function scrollTo(distance){
+		if(distance<0) distance=0;
+		if(distance>$scroll_width) distance=$scroll_width;
 		var pos=-Math.ceil((distance/$scroll_width)*($galleryList_count-$gallery_width)); // 向上取整( ( 按钮拖动距离/滚动条拖动范围 ) * ( 内容宽度/容器的宽度 ) )
 		$galleryCon.css('marginLeft',pos);
+		$scrollBtn.css('marginLeft',distance);
+		$scrollBg.css('width',distance);
 	}
 
-	$scrollBtn.mousedown(function(e){
-		$startX=e.clientX;
-		$startMargin=parseInt($scrollBtn.css('marginLeft').replace('px',''));
-		$(document).mousemove(function(e){
+	$scrollBtn.on('mousedown',function(e){
+		var $startX=e.clientX,
+			$startMargin=parseInt($scrollBtn.css('marginLeft').replace('px',''));
+		e.preventDefault();
+		$(document).on('mousemove',function(e){
 			var distance=e.clientX-$startX+$startMargin;
-			if(distance<0) distance=0;
-			if(distance>$scroll_width) distance=$scroll_width;
-			$scrollBtn.css('marginLeft',distance);
-			$scrollBg.css('width',distance);
 			scrollTo(distance);
+			window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty(); //禁止拖放对象文本被选择的方法 支持：Chrome、Firefox、Opera、Safari
+			window.event.returnValue = false; //针对 IE
+		}).on('mouseup',function() {
+			$(this).off('mousemove');
 		});
-	});
-
-	$(document).on('mouseup',function() {
-		$(this).unbind("mousemove");
 	});
 	/* 默认结束 */
 
