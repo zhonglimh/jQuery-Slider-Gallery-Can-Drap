@@ -40,6 +40,7 @@ body{
 #scrollBtn{
 	display:block;
 	position:absolute; top:-10px; left:0;
+	margin-left:0;
 	width:23px; height:23px;
 	cursor:pointer;
 	border:2px solid #151318;
@@ -52,6 +53,7 @@ body{
 	background-color:#6B32B5;
 	background:-webkit-linear-gradient(top, #7532BD, #432364);
 	border-radius:6px 0 0 6px;
+	overflow:hidden;
 }
 #scrollBtn:before{
 	content:'';
